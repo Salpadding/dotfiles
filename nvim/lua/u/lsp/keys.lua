@@ -4,6 +4,9 @@ function LSPMP(s)
     if not ok then
         print("LSPMP: telescope not installed")
     end
+    if s == "ga" then
+        tb.lsp_code_actions()
+    end
     if s == "gr" then
         tb.lsp_references(
             { includeDeclaration = false, layout_config = { width = 0.99 } }

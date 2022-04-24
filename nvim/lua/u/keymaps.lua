@@ -36,5 +36,5 @@ mp("v", ">", ">gv", opts)
 mp("v", "p", '"_dP', opts)
 
 mp("n", "<leader><Space>", "<cmd>b#<cr>", opts)
-mp("n", "<leader>r", "<cmd>edit!<cr>", opts)
+mp("n", "<leader>br", "<cmd>NvimTreeToggle<cr><cmd>bufdo! e<cr><cmd>NvimTreeToggle<cr>", opts)
 mp("n", "<leader>bd", "<cmd>Bwipeout<cr>", opts)

@@ -22,7 +22,7 @@ local on_attach = function(client, bufnr)
     local mp = vim.api.nvim_buf_set_keymap
     local keys = {
         "gr", "gC", "gB", "gd", "gt",
-        "gi", "gL", "K",
+        "gi", "gL", "K", "ga",
         "gn", "gl", "="
     }
 

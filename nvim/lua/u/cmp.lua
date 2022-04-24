@@ -85,6 +85,7 @@ cmp.setup({
             ls.lsp_expand(args.body)
         end
     },
+    preselect = cmp.PreselectMode.None,
     mapping = {
         ["<C-j>"] = mp("<C-j>"),
         ["<C-k>"] = mp("<C-k>"),

@@ -111,6 +111,7 @@ return packer.startup(function(use)
     -- bookmarks
     use 'MattesGroeger/vim-bookmarks'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
-    -- smooth scroll
-    use "karb94/neoscroll.nvim"
+
+    -- toggle term
+    use "akinsho/toggleterm.nvim"
 end)
