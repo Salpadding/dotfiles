@@ -69,7 +69,7 @@ return packer.startup(function(use)
     use 'JoosepAlviste/nvim-ts-context-commentstring'
 
     -- bufferline
-    use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
+    use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons', branch = "main" }
 
     -- cmp
     use "hrsh7th/cmp-nvim-lsp"
@@ -111,4 +111,6 @@ return packer.startup(function(use)
     -- bookmarks
     use 'MattesGroeger/vim-bookmarks'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
+    -- smooth scroll
+    use "karb94/neoscroll.nvim"
 end)
