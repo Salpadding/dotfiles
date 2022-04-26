@@ -33,7 +33,7 @@ mp("v", ">", ">gv", opts)
 
 -- avoid overriding of register
 -- use leader + d to override register
-mp("v", "p", '"_dP', opts)
+mp("v", "p", '"_dp', opts)
 
 mp("n", "<leader><Space>", "<cmd>b#<cr>", opts)
 mp("n", "<leader>br", "<cmd>NvimTreeToggle<cr><cmd>bufdo! e<cr><cmd>NvimTreeToggle<cr>", opts)
