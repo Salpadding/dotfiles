@@ -52,7 +52,10 @@ vim.g.vscode_transparent = 1
 vim.g.vscode_italic_comment = 1
 -- Disable nvim-tree background color
 vim.g.vscode_disable_nvimtree_bg = true
-
+-- vim bookmar settings
+vim.g.bookmark_save_per_working_dir = 1
+vim.g.bookmark_auto_save = 1
+vim.g.bookmark_sign = ""
 local ok, vscode = pcall(require, "vscode")
 
 if ok then

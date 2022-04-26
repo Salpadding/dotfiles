@@ -126,6 +126,4 @@ for _, k in pairs(keys) do
     mp("n", k, string.format("<cmd>lua TSMP('%s')<cr>", a), opts)
 end
 
-vim.g.bookmark_save_per_working_dir = 1
-vim.g.bookmark_auto_save = 1
 
