@@ -36,6 +36,8 @@ local options = {
     signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
     wrap = true, -- display lines as one long line
     background = "dark",
+
+    scrolloff = 32,
 }
 
 
