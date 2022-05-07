@@ -58,6 +58,7 @@ vim.g.vscode_disable_nvimtree_bg = true
 vim.g.bookmark_save_per_working_dir = 1
 vim.g.bookmark_auto_save = 1
 vim.g.bookmark_sign = ""
+vim.g.tmux_navigator_no_mappings = 1
 local ok, vscode = pcall(require, "vscode")
 
 if ok then

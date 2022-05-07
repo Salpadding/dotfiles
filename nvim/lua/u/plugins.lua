@@ -114,4 +114,6 @@ return packer.startup(function(use)
 
     -- toggle term
     use "akinsho/toggleterm.nvim"
+
+    use "christoomey/vim-tmux-navigator"
 end)
