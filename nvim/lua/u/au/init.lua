@@ -1,0 +1,5 @@
+require "u.au.smart_shift"
+require "u.au.auto_save"
+require "u.au.lsp"
+require "u.au.tabs"
+require "u.au.term"
