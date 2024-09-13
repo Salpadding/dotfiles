@@ -14,12 +14,6 @@ local function setup()
     )
 
     local function magic_enter(fallback)
-        -- most time, we don't need cmp for command line mode
-        if vim.api.nvim_get_mode().mode == "c" then
-            fallback()
-            return
-        end
-    
         if not cmp or not cmp.get_selected_entry() then
             fallback()
             return
@@ -48,7 +42,6 @@ local function setup()
         end
         cmp.select_next_item()
     end
-
     local mapping = {
         -- 选择下一个
         ["<C-j>"] = cmp.mapping(magic_lf, { "i", "c" }),

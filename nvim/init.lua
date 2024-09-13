@@ -1,6 +1,5 @@
 local utils = require "u.utils"
 
-
 vim.api.nvim_set_keymap("n", "q", "", {
     noremap = true,
     callback = function()
@@ -55,4 +54,3 @@ require "u.au"
 -- custom commands
 require "u.cmd"
 require "u.netrw"
-require "u.statusline"

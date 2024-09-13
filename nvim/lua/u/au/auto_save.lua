@@ -1,5 +1,4 @@
 local utils = require("u.utils")
-local a = require "plenary.async"
 local defaults = require "u.defaults"
 
 -- auto save when buffer modified
@@ -21,9 +20,11 @@ local auto_save = {
                 table.remove(self.buffers, bufnr)
                 goto continue
             end
+            if not utils.buf.get_opt(bufnr, "modified") then
+                goto continue
+            end
             if last ~= nil and os.time() - (self.debounce / 1000) > last then
                 self.buffers[bufnr] = nil
-                print("Autosaved for " .. vim.fn.bufname(bufnr))
                 utils.buf.save(bufnr)
             end
             ::continue::

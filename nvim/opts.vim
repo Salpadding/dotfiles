@@ -25,6 +25,8 @@ nn Q gq
 nn p "+p|nn P "+P|nn y "+y|nn yy "+yy
 nn d "+d|nn dd "+dd
 vn p "_dp|vn P "_dP|vn y "+y|vn d "+d
+nn <C-x> <C-\><C-n>
+nn <C-a> <C-\><C-n>
 command -nargs=* -complete=help H :vert help <args>
 " command line abbrev :h -> :H
 cabbrev h H

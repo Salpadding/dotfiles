@@ -33,12 +33,9 @@ local setup = function(lsp)
     lsp.gopls.setup {
     }
 
-    lsp.pyright.setup {
-        capabilities = cap,
-    }
-
     lsp.ccls.setup {
         capabilities = cap,
+        filetypes = {"c", "cpp"}
     }
 
 end
