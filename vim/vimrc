@@ -1,0 +1,13 @@
+set number 
+set relativenumber
+syntax on
+set hlsearch autoindent
+set splitbelow 
+set splitright
+set tabstop=4
+noremap <C-l> <C-w><C-l>
+noremap <C-h> <C-w><C-h>
+noremap <C-j> <C-w><C-j>
+noremap <C-k> <C-w><C-k>
+noremap <C-c> <C-w><C-c>
+
