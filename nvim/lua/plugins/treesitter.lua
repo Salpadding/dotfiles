@@ -1,28 +1,36 @@
-local main = "nvim-treesitter.configs"
-
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    main = main,
     event = "VeryLazy",
-    opts = {
-        ensure_installed = {
+    config = function()
+        local languages = {
             "c", "lua", "rust", "go", "make", "yaml",
             "solidity", "bash", "cpp", "javascript",
             "typescript", "vue", "json", "vim", "python", "toml", "tsx", "xml",
             "html", "css", "vimdoc", "printf", "java", "ruby"
-        },
-        highlight = {
-            enable = true,
-            additional_vim_regex_highlighting = false,
-        },
-    },
-    config = function(_, opts)
-        require(main).setup(opts)
-        vim.cmd [[
-            set foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
-            set foldlevel=99
-            ]]
-        vim.treesitter.query.set("printf", "highlights", "(format) @keyword")
+        }
+
+        -- Install parsers
+        for _, lang in ipairs(languages) do
+            pcall(function()
+                vim.treesitter.language.add(lang)
+            end)
+        end
+
+        -- Enable treesitter highlighting
+        vim.api.nvim_create_autocmd("FileType", {
+            callback = function()
+                pcall(vim.treesitter.start)
+            end,
+        })
+
+        -- Folding
+        vim.opt.foldmethod = "expr"
+        vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        vim.opt.foldlevel = 99
+
+        pcall(function()
+            vim.treesitter.query.set("printf", "highlights", "(format) @keyword")
+        end)
     end
 }
