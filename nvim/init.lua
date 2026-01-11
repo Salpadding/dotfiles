@@ -7,16 +7,72 @@ if defaults.options.nvim_tree then
     vim.g.loaded_netrwPlugin = 1
 end
 
--- configure clipboard (OSC 52 for both copy and paste)
+-- configure clipboard (OSC 52 for copy, tmux refresh-client for paste)
+-- Store linewise content to detect register type during paste
+local linewise_content = nil
+local last_regtype = nil
+
+-- Debug command: :ClipboardDebug
+vim.api.nvim_create_user_command('ClipboardDebug', function()
+  vim.fn.system('tmux refresh-client -l')
+  local clipboard = vim.fn.system('tmux save-buffer -'):gsub('\n$', '')
+  print('linewise_content: ' .. vim.inspect(linewise_content))
+  print('last_regtype: ' .. vim.inspect(last_regtype))
+  print('clipboard: ' .. vim.inspect(clipboard))
+  print('match: ' .. tostring(linewise_content == clipboard))
+end, {})
+
+local function make_copy_fn(reg)
+  local osc52_copy = require('vim.ui.clipboard.osc52').copy(reg)
+  return function(lines, regtype)
+    last_regtype = regtype
+    -- Store content if linewise (strip trailing newline to match clipboard)
+    if regtype == 'V' then
+      linewise_content = table.concat(lines, '\n'):gsub('\n$', '')
+    else
+      linewise_content = nil
+    end
+    return osc52_copy(lines, regtype)
+  end
+end
+
+local function make_paste_fn(cmd)
+  return function()
+    local content = vim.fn.system(cmd):gsub('\n$', '') -- trim trailing newline
+    local lines = vim.split(content, '\n', { plain = true })
+    -- Check if content matches stored linewise content
+    local regtype = (linewise_content and content == linewise_content) and 'V' or 'v'
+    return { lines, regtype }
+  end
+end
+
+local function get_paste_fn()
+  if vim.fn.has('mac') == 1 then
+    return make_paste_fn('pbpaste')
+  elseif vim.env.TMUX then
+    return function()
+      vim.fn.system('tmux refresh-client -l')
+      local content = vim.fn.system('tmux save-buffer -'):gsub('\n$', '')
+      local lines = vim.split(content, '\n', { plain = true })
+      local regtype = (linewise_content and content == linewise_content) and 'V' or 'v'
+      return { lines, regtype }
+    end
+  elseif vim.env.DISPLAY and vim.fn.executable('xclip') == 1 then
+    return make_paste_fn('xclip -selection clipboard -o')
+  elseif vim.env.WAYLAND_DISPLAY and vim.fn.executable('wl-paste') == 1 then
+    return make_paste_fn('wl-paste')
+  end
+end
+
 vim.g.clipboard = {
-  name = 'OSC 52',
+  name = 'OSC 52 + tmux refresh',
   copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    ['+'] = make_copy_fn('+'),
+    ['*'] = make_copy_fn('*'),
   },
   paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    ['+'] = get_paste_fn(),
+    ['*'] = get_paste_fn(),
   },
 }
 
