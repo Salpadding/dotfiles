@@ -1,13 +1,6 @@
 local is_tmux = vim.env.TMUX ~= nil
 
 local term_opts = {}
-local ext_term_cmd = function(cmd)
-    local cwd = "'" .. vim.fn.getcwd() .. "'"
-    local ret = "tmux split-window -h -c \"" .. "#{pane_current_path}" .. "\"" .. " \"cd " .. cwd .. "; claude \""
-    print(ret)
-    return ret
-end
-
 
 if is_tmux then
     term_opts = {

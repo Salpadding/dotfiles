@@ -13,6 +13,7 @@ local function setup()
         cmp_autopairs.on_confirm_done()
     )
 
+    -- so that :q will not blocked by cmp
     local function magic_enter(fallback)
         if not cmp or not cmp.get_selected_entry() then
             fallback()
@@ -20,7 +21,6 @@ local function setup()
         end
         cmp.confirm()
     end
-
     local function magic_tab(fallback)
         if not cmp or not cmp.visible() then
             fallback()
@@ -34,7 +34,8 @@ local function setup()
 
         cmp.select_next_item()
     end
-
+    
+    -- ctrl+j = LF
     local function magic_lf(fallback)
         if not cmp.visible() then
             cmp.complete()
@@ -52,26 +53,29 @@ local function setup()
             if e == current then idx = i; break end
         end
         local remaining = direction > 0 and (#entries - idx) or (idx - 1)
-        for _ = 1, math.min(page_size, remaining) do
-            if direction > 0 then
-                cmp.select_next_item()
-            else
-                cmp.select_prev_item()
-            end
+        local count = math.min(page_size, remaining)
+        if count <= 0 then
+            return
+        end
+
+        if direction > 0 then
+            cmp.select_next_item({ count = count })
+        else
+            cmp.select_prev_item({ count = count })
         end
     end
 
     local mapping = {
-        -- 选择下一个
+        -- select next
         ["<C-j>"] = cmp.mapping(magic_lf, { "i", "c" }),
-        -- 选择上一个
+        -- select 
         ["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
         -- 往上翻一页
         ['<C-b>'] = cmp.mapping(utils.fp.bind(scroll_page, 10,-1), { "i", "c" }),
         -- 往下翻一页
         ['<C-f>'] = cmp.mapping(utils.fp.bind(scroll_page, 10, 1), { "i", "c" }),
-        ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping(utils.fp.bind(scroll_page, 4, 1), { "i", "c" }),
+        ['<C-u>'] = cmp.mapping(utils.fp.bind(scroll_page, 4, -1), { "i", "c" }),
         ['<CR>'] = cmp.mapping(magic_enter, { "i", "c" }),
         -- 类似 idea 的 tab
         ['<C-l>'] = cmp.mapping(magic_tab, { "i", "c" }),
